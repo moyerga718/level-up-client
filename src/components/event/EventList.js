@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getEvents, deleteEvent } from "../../managers/EventManager.js"
+import { getEvents, deleteEvent, leaveEvent, joinEvent } from "../../managers/EventManager.js"
 import "./Events.css"
 
 export const EventList = (props) => {
@@ -25,19 +25,46 @@ export const EventList = (props) => {
                         <div className="event__date">{event.date}, {event.time}</div>
                         <div className="event__description">About: {event.description}</div>
                         <div className="event__organizer">Organized By: {event.organizer.user.first_name} {event.organizer.user.last_name}</div>
-                        <button className="btn btn-2 btn-sep icon-create"
-                            onClick={() => {
-                                navigate({ pathname: `/events/edit/${event.id}` })
-                            }}
-                        >edit</button>
 
-                        <button className="btn btn-3 btn-sep icon-create"
-                            onClick={() => {
-                                deleteEvent(event.id).then(
-                                    getEvents().then(setEvents)
-                                )
-                            }}
-                        >Delete</button>
+                        {
+                            (event.joined)
+                                ? <>
+                                    <button className="btn btn-4 btn-sep icon-create"
+                                        onClick={() => {
+                                            leaveEvent(event.id).then(
+                                                getEvents().then(setEvents)
+                                            )
+                                        }}
+                                    >LEAVE THIS EVENT</button></>
+                                : <>
+                                    <button className="btn btn-4 btn-sep icon-create"
+                                        onClick={() => {
+                                            joinEvent(event.id).then(
+                                                getEvents().then(setEvents)
+                                            )
+                                        }}
+                                    >JOIN THIS EVENT</button>
+                                </>
+                        }
+
+                        {
+                            <>
+                                <button className="btn btn-2 btn-sep icon-create"
+                                    onClick={() => {
+                                        navigate({ pathname: `/events/edit/${event.id}` })
+                                    }}
+                                >edit</button>
+
+                                <button className="btn btn-3 btn-sep icon-create"
+                                    onClick={() => {
+                                        deleteEvent(event.id).then(
+                                            getEvents().then(setEvents)
+                                        )
+                                    }}
+                                >Delete</button>
+                            </>
+
+                        }
                     </section>
                 })
             }
