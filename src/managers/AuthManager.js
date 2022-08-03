@@ -21,3 +21,5 @@ export const registerUser = (user) => {
   })
     .then(res => res.json())
 }
+
+
