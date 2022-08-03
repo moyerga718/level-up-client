@@ -41,3 +41,12 @@ export const updateEvent = (eventId, eventBody) => {
     })
         .then(response => response.json())
 }
+
+export const deleteEvent = (id) => {
+    return fetch(`http://localhost:8000/events/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+}

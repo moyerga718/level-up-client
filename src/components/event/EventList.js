@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getEvents } from "../../managers/EventManager.js"
+import { getEvents, deleteEvent } from "../../managers/EventManager.js"
 import "./Events.css"
 
 export const EventList = (props) => {
@@ -30,6 +30,14 @@ export const EventList = (props) => {
                                 navigate({ pathname: `/events/edit/${event.id}` })
                             }}
                         >edit</button>
+
+                        <button className="btn btn-3 btn-sep icon-create"
+                            onClick={() => {
+                                deleteEvent(event.id).then(
+                                    getEvents().then(setEvents)
+                                )
+                            }}
+                        >Delete</button>
                     </section>
                 })
             }
